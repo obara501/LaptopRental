@@ -48,6 +48,25 @@ error_reporting(0);
   <?php include('includes/header.php'); ?>
   <!-- /Header -->
 
+  <section>
+    <?php
+    //this block of code grabs the email address of the user current logged in. 
+    $email = $_SESSION['login'];
+    $sql1 = "SELECT EmailId FROM tblusers WHERE EmailId=:email ";
+    $query1 = $dbh->prepare($sql1);
+    $query1->bindParam(':email', $email, PDO::PARAM_STR);
+    $query1->execute();
+    $resultss = $query1->fetchAll(PDO::FETCH_OBJ);
+    if ($query1->rowCount() > 0) {
+      foreach ($resultss as $results) {
+        $mail = ($results->EmailId);
+        // echo htmlentities($mail);
+        // echo htmlentities($results->EmailId);
+      }
+    }
+    ?>
+  </section>
+
   <!-- Banners -->
   <section id="banner" class="banner-section">
     <div class="container">
@@ -85,8 +104,7 @@ error_reporting(0);
         <!-- Recently Listed New Cars -->
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="resentnewcar">
-
-            <?php $sql = "SELECT tblvehicles.LaptopTitle,tblbrands.BrandName,tblvehicles.PricePerDay,tblvehicles.Processor,tblvehicles.Storage,tblvehicles.id,tblvehicles.RAM,tblvehicles.LaptopOverview,tblvehicles.Vimage1 from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand";
+            <?php $sql = "SELECT tbllaptops.LaptopTitle,tbllaptops.OwnerEmail,tblbrands.BrandName,tbllaptops.PricePerDay,tbllaptops.Processor,tbllaptops.Storage,tbllaptops.id,tbllaptops.RAM,tbllaptops.LaptopOverview,tbllaptops.Vimage1 from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where OwnerEmail!=$mail;";
             $query = $dbh->prepare($sql);
             $query->execute();
             $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -96,7 +114,7 @@ error_reporting(0);
             ?>
                 <div class="col-list-3">
                   <div class="recent-car-list">
-                    <div class="car-info-box"> <a href="vehical-details.php?vhid=<?php echo htmlentities($result->id); ?>">
+                    <div class="car-info-box"> <a href="laptop-details.php?vhid=<?php echo htmlentities($result->id); ?>">
                         <img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1); ?>" class="img-responsive" alt="image"></a>
                       <ul>
                         <li><i class="fa fa-car" aria-hidden="true"></i><?php echo htmlentities($result->Processor); ?></li>
@@ -105,7 +123,7 @@ error_reporting(0);
                       </ul>
                     </div>
                     <div class="car-title-m">
-                      <h6><a href="vehical-details.php?vhid=<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></a></h6>
+                      <h6><a href="laptop-details.php?vhid=<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></a></h6>
                       <span class="price">$<?php echo htmlentities($result->PricePerDay); ?> /Day</span>
                     </div>
                     <div class="inventory_info_m">

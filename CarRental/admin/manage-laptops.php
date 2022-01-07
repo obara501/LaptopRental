@@ -8,7 +8,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 	if (isset($_REQUEST['del'])) {
 		$delid = intval($_GET['del']);
-		$sql = "delete from tblvehicles  WHERE  id=:delid";
+		$sql = "delete from tbllaptops  WHERE  id=:delid";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':delid', $delid, PDO::PARAM_STR);
 		$query->execute();
@@ -118,7 +118,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 											</tr>
 										</tfoot>
 										<tbody>
-											<?php $sql = "SELECT tblvehicles.LaptopTitle,tblbrands.BrandName,tblvehicles.SerialNumber,tblvehicles.PricePerDay,tblvehicles.Processor,tblvehicles.Storage,tblvehicles.id from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand";
+											<?php $sql = "SELECT tbllaptops.LaptopTitle,tblbrands.BrandName,tbllaptops.SerialNumber,tbllaptops.PricePerDay,tbllaptops.Processor,tbllaptops.Storage,tbllaptops.id from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand";
 											$query = $dbh->prepare($sql);
 											$query->execute();
 											$results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -133,8 +133,8 @@ if (strlen($_SESSION['alogin']) == 0) {
 														<td><?php echo htmlentities($result->PricePerDay); ?></td>
 														<td><?php echo htmlentities($result->Processor); ?></td>
 														<td><?php echo htmlentities($result->Storage); ?></td>
-														<td><a href="edit-vehicle.php?id=<?php echo $result->id; ?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-															<a href="manage-vehicles.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete');"><i class="fa fa-close"></i></a>
+														<td><a href="edit-laptop.php?id=<?php echo $result->id; ?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+															<a href="manage-laptops.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete');"><i class="fa fa-close"></i></a>
 														</td>
 													</tr>
 											<?php $cnt = $cnt + 1;

@@ -108,7 +108,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<th>To Date</th>
 												<th>Message</th>
 												<th>Status</th>
-												<th>Posting date</th>
+												<th>Date Posted</th>
 												<th>Action</th>
 											</tr>
 										</thead>
@@ -122,13 +122,13 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<th>To Date</th>
 												<th>Message</th>
 												<th>Status</th>
-												<th>Posting date</th>
+												<th>Date Posted</th>
 												<th>Action</th>
 											</tr>
 										</tfoot>
 										<tbody>
 
-											<?php $sql = "SELECT tblusers.FullName,tblbrands.BrandName,tblvehicles.SerialNumber,tblvehicles.LaptopTitle,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.VehicleId as vid,tblbooking.Status,tblbooking.PostingDate,tblbooking.id  from tblbooking join tblvehicles on tblvehicles.id=tblbooking.VehicleId join tblusers on tblusers.EmailId=tblbooking.userEmail join tblbrands on tblvehicles.VehiclesBrand=tblbrands.id  ";
+											<?php $sql = "SELECT tblusers.FullName,tblbrands.BrandName,tbllaptops.SerialNumber,tbllaptops.LaptopTitle,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.VehicleId as vid,tblbooking.Status,tblbooking.PostingDate,tblbooking.id  from tblbooking join tbllaptops on tbllaptops.id=tblbooking.VehicleId join tblusers on tblusers.EmailId=tblbooking.userEmail join tblbrands on tbllaptops.VehiclesBrand=tblbrands.id  ";
 											$query = $dbh->prepare($sql);
 											$query->execute();
 											$results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -138,7 +138,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 													<tr>
 														<td><?php echo htmlentities($cnt); ?></td>
 														<td><?php echo htmlentities($result->FullName); ?></td>
-														<td><a href="edit-vehicle.php?id=<?php echo htmlentities($result->vid); ?>"><?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></td>
+														<td><a href="edit-laptop.php?id=<?php echo htmlentities($result->vid); ?>"><?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></td>
 														<td><?php echo htmlentities($result->SerialNumber); ?></td>
 														<td><?php echo htmlentities($result->FromDate); ?></td>
 														<td><?php echo htmlentities($result->ToDate); ?></td>

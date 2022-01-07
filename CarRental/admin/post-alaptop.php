@@ -8,6 +8,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 	if (isset($_POST['submit'])) {
 		$serialnumber = $_POST['serialnumber'];
+		$emailid = $_POST['emailid'];
 		$laptoptitle = $_POST['laptoptitle'];
 		$brand = $_POST['brandname'];
 		$laptopoverview = $_POST['laptoporcview'];
@@ -27,9 +28,10 @@ if (strlen($_SESSION['alogin']) == 0) {
 		move_uploaded_file($_FILES["img3"]["tmp_name"], "img/vehicleimages/" . $_FILES["img3"]["name"]);
 		move_uploaded_file($_FILES["img4"]["tmp_name"], "img/vehicleimages/" . $_FILES["img4"]["name"]);
 
-		$sql = "INSERT INTO tblvehicles(SerialNumber,LaptopTitle,VehiclesBrand,LaptopOverview,PricePerDay,Processor,Storage,RAM,Vimage1,Vimage2,Vimage3,Vimage4,Charger,Bag,Mouse) VALUES(:serialnumber,:laptoptitle,:brand,:laptopoverview,:priceperday,:processor,:storage,:ram,:vimage1,:vimage2,:vimage3,:vimage4,:charger,:bag,:mouse)";
+		$sql = "INSERT INTO tbllaptops(SerialNumber,OwnerEmail,LaptopTitle,VehiclesBrand,LaptopOverview,PricePerDay,Processor,Storage,RAM,Vimage1,Vimage2,Vimage3,Vimage4,Charger,Bag,Mouse) VALUES(:serialnumber,:email,:laptoptitle,:brand,:laptopoverview,:priceperday,:processor,:storage,:ram,:vimage1,:vimage2,:vimage3,:vimage4,:charger,:bag,:mouse)";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':serialnumber', $serialnumber, PDO::PARAM_STR);
+		$query->bindParam(':email', $emailid, PDO::PARAM_STR);
 		$query->bindParam(':laptoptitle', $laptoptitle, PDO::PARAM_STR);
 		$query->bindParam(':brand', $brand, PDO::PARAM_STR);
 		$query->bindParam(':laptopoverview', $laptopoverview, PDO::PARAM_STR);
@@ -67,7 +69,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 		<meta name="author" content="Geofrey Obara">
 		<meta name="theme-color" content="#3e454c">
 
-		<title>Laptop Rental Portal | Admin Post Vehicle</title>
+		<title>Laptop Rental Portal | Admin Post Laptop</title>
 
 		<!-- Font awesome -->
 		<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -110,7 +112,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 	<body>
 
 		<script>
-			function checkAvailability() {
+			function check() {
 				$("#loaderIcon").show();
 				jQuery.ajax({
 					url: "laptopverify.php",
@@ -122,6 +124,20 @@ if (strlen($_SESSION['alogin']) == 0) {
 					},
 					error: function() {}
 				});
+			}
+
+			function checkAvailability() {
+				$("#loaderIcon").show();
+				jQuery.ajax({
+					url: "laptopverify.php",
+					data: 'emailid=' + $("#emailid").val(),
+					type: "POST",
+					success: function(data) {
+						$("#user-availability-status").html(data);
+						$("#loaderIcon").hide();
+					},
+					error: function() {}
+				})
 			}
 		</script>
 
@@ -148,8 +164,14 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<div class="form-group">
 													<label class="col-sm-2 control-label">Serial Number<span style="color:red">*</span></label>
 													<div class="col-sm-4">
-														<input type="text" name="serialnumber" class="form-control" onBlur="checkAvailability()" required>
+														<input type="text" name="serialnumber" class="form-control" onBlur="check()" required>
 														<span id="laptop-availability-status" style="font-size:12px;"></span>
+													</div>
+
+													<label class="col-sm-2 control-label">Owner Email<span style="color:red">*</span></label>
+													<div class="col-sm-4">
+														<input type="email" name="emailid" class="form-control" onBlur="checkAvailability()" required>
+														<span id="user-availability-status" style="font-size:12px;"></span>
 													</div>
 												</div>
 												<div class="hr-dashed"></div>
@@ -170,7 +192,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 															if ($query->rowCount() > 0) {
 																foreach ($results as $result) {
 															?>
-																	<option value="<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->BrandName); ?></option>
+																<option value="<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->BrandName); ?></option>
 															<?php }
 															} ?>
 

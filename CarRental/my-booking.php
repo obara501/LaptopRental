@@ -114,12 +114,12 @@ if (strlen($_SESSION['login']) == 0) {
 
                 <div class="col-md-6 col-sm-8">
                   <div class="profile_wrap">
-                    <h5 class="uppercase underline">My Booikngs </h5>
+                    <h5 class="uppercase underline">My Bookings </h5>
                     <div class="my_vehicles_list">
                       <ul class="vehicle_listing">
                         <?php
                         $useremail = $_SESSION['login'];
-                        $sql = "SELECT tblvehicles.Vimage1 as Vimage1,tblvehicles.LaptopTitle,tblvehicles.SerialNumber,tblvehicles.id as vid,tblbrands.BrandName,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.Status  from tblbooking join tblvehicles on tblbooking.VehicleId=tblvehicles.id join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand where tblbooking.userEmail=:useremail";
+                        $sql = "SELECT tbllaptops.Vimage1 as Vimage1,tbllaptops.LaptopTitle,tbllaptops.SerialNumber,tbllaptops.OwnerEmail,tbllaptops.id as vid,tblbrands.BrandName,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.Status  from tblbooking join tbllaptops on tblbooking.VehicleId=tbllaptops.id join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where tblbooking.userEmail=:useremail";
                         $query = $dbh->prepare($sql);
                         $query->bindParam(':useremail', $useremail, PDO::PARAM_STR);
                         $query->execute();
@@ -129,11 +129,12 @@ if (strlen($_SESSION['login']) == 0) {
                           foreach ($results as $result) {  ?>
 
                             <li>
-                              <div class="vehicle_img"> <a href="vehical-details.php?vhid=<?php echo htmlentities($result->vid); ?>""><img src=" admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1); ?>" alt="image"></a> </div>
+                              <div class="vehicle_img"> <a href="laptop-details.php?vhid=<?php echo htmlentities($result->vid); ?>""><img src=" admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1); ?>" alt="image"></a> </div>
                               <div class="vehicle_title">
-                                <h6><a href="vehical-details.php?vhid=<?php echo htmlentities($result->vid); ?>""> <?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></a></h6>
+                                <h6><a href="laptop-details.php?vhid=<?php echo htmlentities($result->vid); ?>""> <?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></a></h6>
                                 <p>
                                   <b>Serial Number:</b> <?php echo htmlentities($result->SerialNumber); ?><br/>
+                                  <b>Owner Email  :</b> <?php echo htmlentities($result->OwnerEmail); ?><br/>
                                   <b>From Date    :</b> <?php echo htmlentities($result->FromDate); ?><br/>
                                   <b>To Date      :</b> <?php echo htmlentities($result->ToDate); ?></p>
                               </div>

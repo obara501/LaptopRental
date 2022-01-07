@@ -13,8 +13,8 @@
 
 			<li><a href="#"><i class="fa fa-sitemap"></i> Laptops</a>
 				<ul>
-					<li><a href="post-avehical.php">Post a Laptop</a></li>
-					<li><a href="manage-vehicles.php">Manage Laptops</a></li>
+					<li><a href="post-alaptop.php">Post a Laptop</a></li>
+					<li><a href="manage-laptops.php">Manage Laptops</a></li>
 				</ul>
 			</li>
 			<li><a href="manage-bookings.php"><i class="fa fa-users"></i> Manage Booking</a></li>

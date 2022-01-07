@@ -76,7 +76,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<div class="panel-body bk-success text-light">
 													<div class="stat-panel text-center">
 														<?php
-														$sql1 = "SELECT id from tblvehicles ";
+														$sql1 = "SELECT id from tbllaptops ";
 														$query1 = $dbh->prepare($sql1);;
 														$query1->execute();
 														$results1 = $query1->fetchAll(PDO::FETCH_OBJ);
@@ -86,7 +86,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 														<div class="stat-panel-title text-uppercase">Listed Laptops</div>
 													</div>
 												</div>
-												<a href="manage-vehicles.php" class="block-anchor panel-footer text-center">Full Detail &nbsp; <i class="fa fa-arrow-right"></i></a>
+												<a href="manage-laptops.php" class="block-anchor panel-footer text-center">Full Detail &nbsp; <i class="fa fa-arrow-right"></i></a>
 											</div>
 										</div>
 										<div class="col-md-3">

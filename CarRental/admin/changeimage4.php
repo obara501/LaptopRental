@@ -13,7 +13,7 @@ if(isset($_POST['update']))
 $vimage=$_FILES["img4"]["name"];
 $id=intval($_GET['imgid']);
 move_uploaded_file($_FILES["img4"]["tmp_name"],"img/vehicleimages/".$_FILES["img4"]["name"]);
-$sql="update tblvehicles set Vimage4=:vimage where id=:id";
+$sql="update tbllaptops set Vimage4=:vimage where id=:id";
 $query = $dbh->prepare($sql);
 $query->bindParam(':vimage',$vimage,PDO::PARAM_STR);
 $query->bindParam(':id',$id,PDO::PARAM_STR);
@@ -87,12 +87,12 @@ $msg="Image updated successfully";
 				<div class="row">
 					<div class="col-md-12">
 					
-						<h2 class="page-title">Vehicle Image 4 </h2>
+						<h2 class="page-title">Laptop Image 4 </h2>
 
 						<div class="row">
 							<div class="col-md-10">
 								<div class="panel panel-default">
-									<div class="panel-heading">Vehicle Image 4 Details</div>
+									<div class="panel-heading">Laptop Image 4 Details</div>
 									<div class="panel-body">
 										<form method="post" class="form-horizontal" enctype="multipart/form-data">
 										
@@ -106,7 +106,7 @@ $msg="Image updated successfully";
 												<label class="col-sm-4 control-label">Current Image4</label>
 <?php 
 $id=intval($_GET['imgid']);
-$sql ="SELECT Vimage4 from tblvehicles where tblvehicles.id=:id";
+$sql ="SELECT Vimage4 from tbllaptops where tbllaptops.id=:id";
 $query = $dbh -> prepare($sql);
 $query-> bindParam(':id', $id, PDO::PARAM_STR);
 $query->execute();

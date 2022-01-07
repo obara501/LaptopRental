@@ -220,12 +220,13 @@ INSERT INTO `tblusers` (`id`, `AdmNo`, `FullName`, `EmailId`, `Password`, `Conta
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblvehicles`
+-- Table structure for table `tbllaptops`
 --
 
-CREATE TABLE `tblvehicles` (
+CREATE TABLE `tbllaptops` (
   `id` int(11) NOT NULL,
   `SerialNumber` varchar(255) NOT NULL,
+  `OwnerEmail` varchar(255) NOT NULL,
   `LaptopTitle` varchar(255) DEFAULT NULL,
   `VehiclesBrand` int(11) DEFAULT NULL,
   `LaptopOverview` varchar(255) DEFAULT NULL,
@@ -245,7 +246,7 @@ CREATE TABLE `tblvehicles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tblvehicles`
+-- Dumping data for table `tbllaptops`
 --
 
 (5, '840 G3', 1, 'Minimal Scratches, F key not working. ', 200, 'Core i5', '500GB', '8 GB', '1609344078_IMG_1467435.jpg', '1609344078_IMG_1467436.jpg', '1609344078_IMG_1467437.jpg', '1609344078_IMG_1467436.jpg', NULL, NULL, '2021-12-30 16:13:42', NULL),
@@ -311,9 +312,9 @@ ALTER TABLE `tblusers`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tblvehicles`
+-- Indexes for table `tbllaptops`
 --
-ALTER TABLE `tblvehicles`
+ALTER TABLE `tbllaptops`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -375,9 +376,9 @@ ALTER TABLE `tblusers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `tblvehicles`
+-- AUTO_INCREMENT for table `tbllaptops`
 --
-ALTER TABLE `tblvehicles`
+ALTER TABLE `tbllaptops`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 

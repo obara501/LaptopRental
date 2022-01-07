@@ -92,8 +92,8 @@ if (strlen($_SESSION['alogin']) == 0) {
 											<tr>
 												<th>#</th>
 												<th>Brand Name</th>
-												<th>Creation Date</th>
-												<th>Updation date</th>
+												<th>Date Created</th>
+												<th>Date updated</th>
 
 												<th>Action</th>
 											</tr>
@@ -102,8 +102,8 @@ if (strlen($_SESSION['alogin']) == 0) {
 											<tr>
 												<th>#</th>
 												<th>Brand Name</th>
-												<th>Creation Date</th>
-												<th>Updation date</th>
+												<th>Date Created</th>
+												<th>Date updated</th>
 
 												<th>Action</th>
 											</tr>

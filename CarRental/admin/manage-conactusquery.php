@@ -89,7 +89,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<th>Email</th>
 												<th>Contact No</th>
 												<th>Message</th>
-												<th>Posting date</th>
+												<th>Date Posted</th>
 												<th>Action</th>
 											</tr>
 										</thead>
@@ -100,7 +100,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<th>Email</th>
 												<th>Contact No</th>
 												<th>Message</th>
-												<th>Posting date</th>
+												<th>Date Posted</th>
 												<th>Action</th>
 											</tr>
 											</tr>

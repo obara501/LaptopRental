@@ -114,7 +114,7 @@ $msg="Testimonial Successfully Active";
 											<th>Name</th>
 											<th>Email</th>
 											<th>Testimonials</th>
-											<th>Posting date</th>
+											<th>Date Posted</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -124,7 +124,7 @@ $msg="Testimonial Successfully Active";
 											<th>Name</th>
 											<th>Email</th>
 											<th>Testimonials</th>
-											<th>Posting date</th>
+											<th>Date Posted</th>
 											<th>Action</th>
 										</tr>
 									</tfoot>

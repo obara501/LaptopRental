@@ -8,6 +8,7 @@ if (strlen($_SESSION['login']) == 0) {
 } else {
 	if (isset($_POST['submit'])) {
 		$serialnumber = $_POST['serialnumber'];
+		$emailid = $_POST['emailid'];
 		$laptoptitle = $_POST['laptoptitle'];
 		$brand = $_POST['brandname'];
 		$laptopoverview = $_POST['laptoporcview'];
@@ -27,9 +28,10 @@ if (strlen($_SESSION['login']) == 0) {
 		move_uploaded_file($_FILES["img3"]["tmp_name"], "admin/img/vehicleimages/" . $_FILES["img3"]["name"]);
 		move_uploaded_file($_FILES["img4"]["tmp_name"], "admin/img/vehicleimages/" . $_FILES["img4"]["name"]);
 
-		$sql = "INSERT INTO tblvehicles(SerialNumber,LaptopTitle,VehiclesBrand,LaptopOverview,PricePerDay,Processor,Storage,RAM,Vimage1,Vimage2,Vimage3,Vimage4,Charger,Bag,Mouse) VALUES(:serialnumber,:laptoptitle,:brand,:laptopoverview,:priceperday,:processor,:storage,:ram,:vimage1,:vimage2,:vimage3,:vimage4,:charger,:bag,:mouse)";
+		$sql = "INSERT INTO tbllaptops(SerialNumber,OwnerEmail,LaptopTitle,VehiclesBrand,LaptopOverview,PricePerDay,Processor,Storage,RAM,Vimage1,Vimage2,Vimage3,Vimage4,Charger,Bag,Mouse) VALUES(:serialnumber,:emailid,:laptoptitle,:brand,:laptopoverview,:priceperday,:processor,:storage,:ram,:vimage1,:vimage2,:vimage3,:vimage4,:charger,:bag,:mouse)";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':serialnumber', $serialnumber, PDO::PARAM_STR);
+		$query->bindParam(':emailid', $emailid, PDO::PARAM_STR);
 		$query->bindParam(':laptoptitle', $laptoptitle, PDO::PARAM_STR);
 		$query->bindParam(':brand', $brand, PDO::PARAM_STR);
 		$query->bindParam(':laptopoverview', $laptopoverview, PDO::PARAM_STR);
@@ -119,7 +121,7 @@ if (strlen($_SESSION['login']) == 0) {
 
 	<section>
 		<?php
-
+        //this block of code grabs the email address of the user current logged in. 
 		$email = $_SESSION['login'];
 		$sql1 = "SELECT EmailId FROM tblusers WHERE EmailId=:email ";
 		$query1 = $dbh->prepare($sql1);
@@ -128,7 +130,7 @@ if (strlen($_SESSION['login']) == 0) {
 		$resultss = $query1->fetchAll(PDO::FETCH_OBJ);
 		if ($query1->rowCount() > 0) {
 			foreach ($resultss as $results) {
-				 echo htmlentities($results->EmailId);
+				// echo htmlentities($results->EmailId);
 			}
 		}
 		?>
@@ -155,6 +157,12 @@ if (strlen($_SESSION['login']) == 0) {
 												<label class="col-sm-2 control-label">Serial Number<span style="color:red">*</span></label>
 												<div class="col-sm-4">
 													<input type="text" name="serialnumber" class="form-control" required>
+												</div>
+
+												<label class="col-sm-2 control-label">Owner Email<span style="color:red">*</span></label>
+												<div class="col-sm-4">
+													<input type="email" name="emailid" class="form-control"  value = "<?php echo htmlentities($results->EmailId); ?>" onBlur="checkAvailability()" required>
+													<span id="user-availability-status" style="font-size:12px;"></span>
 												</div>
 											</div>
 											<div class="hr-dashed"></div>
