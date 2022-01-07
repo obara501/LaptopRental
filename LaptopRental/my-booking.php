@@ -5,28 +5,6 @@ include('includes/config.php');
 if (strlen($_SESSION['login']) == 0) {
   header('location:index.php');
 } else {
-  if (isset($_POST['update'])) {
-    $password = ($_POST['password']);
-    $newpassword = ($_POST['newpassword']);
-    $email = $_SESSION['login'];
-    $sql = "SELECT Password FROM tblusers WHERE EmailId=:email and Password=:password";
-    $query = $dbh->prepare($sql);
-    $query->bindParam(':email', $email, PDO::PARAM_STR);
-    $query->bindParam(':password', $password, PDO::PARAM_STR);
-    $query->execute();
-    $results = $query->fetchAll(PDO::FETCH_OBJ);
-    if ($query->rowCount() > 0) {
-      $con = "update tblusers set Password=:newpassword where EmailId=:email";
-      $chngpwd1 = $dbh->prepare($con);
-      $chngpwd1->bindParam(':email', $email, PDO::PARAM_STR);
-      $chngpwd1->bindParam(':newpassword', $newpassword, PDO::PARAM_STR);
-      $chngpwd1->execute();
-      $msg = "Your Password succesfully changed";
-    } else {
-      $error = "Your current password is wrong";
-    }
-  }
-
 ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -50,7 +28,8 @@ if (strlen($_SESSION['login']) == 0) {
     <!--bootstrap-slider -->
     <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
     <!--FontAwesome Font Style -->
-    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+      <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
     <!-- SWITCHER -->
     <link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
@@ -69,35 +48,12 @@ if (strlen($_SESSION['login']) == 0) {
     <link rel="shortcut icon" href="assets/images/favicon-icon/favicon.png">
     <!-- Google-Font-->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
-    <script type="text/javascript">
-      function valid() {
-        if (document.chngpwd.newpassword.value != document.chngpwd.confirmpassword.value) {
-          alert("New Password and Confirm Password Field do not match  !!");
-          document.chngpwd.confirmpassword.focus();
-          return false;
-        }
-        return true;
-      }
-    </script>
-    <style>
-      .errorWrap {
-        padding: 10px;
-        margin: 0 0 20px 0;
-        background: #fff;
-        border-left: 4px solid #dd3d36;
-        -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-      }
-
-      .succWrap {
-        padding: 10px;
-        margin: 0 0 20px 0;
-        background: #fff;
-        border-left: 4px solid #5cb85c;
-        -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-      }
-    </style>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
   </head>
 
   <body>
@@ -108,17 +64,19 @@ if (strlen($_SESSION['login']) == 0) {
 
     <!--Header-->
     <?php include('includes/header.php'); ?>
+    <!--Page Header-->
     <!-- /Header -->
+
     <!--Page Header-->
     <section class="page-header profile_page">
       <div class="container">
         <div class="page-header_wrap">
           <div class="page-heading">
-            <h1>Update Password</h1>
+            <h1>My Booking</h1>
           </div>
           <ul class="coustom-breadcrumb">
             <li><a href="#">Home</a></li>
-            <li>Update Password</li>
+            <li>My Booking</li>
           </ul>
         </div>
       </div>
@@ -154,71 +112,79 @@ if (strlen($_SESSION['login']) == 0) {
             <div class="row">
               <div class="col-md-3 col-sm-3">
                 <?php include('includes/sidebar.php'); ?>
+
                 <div class="col-md-6 col-sm-8">
                   <div class="profile_wrap">
-                    <form name="chngpwd" method="post" onSubmit="return valid();">
+                    <h5 class="uppercase underline">My Bookings </h5>
+                    <div class="my_vehicles_list">
+                      <ul class="vehicle_listing">
+                        <?php
+                        $useremail = $_SESSION['login'];
+                        $sql = "SELECT tbllaptops.Vimage1 as Vimage1,tbllaptops.LaptopTitle,tbllaptops.SerialNumber,tbllaptops.OwnerEmail,tbllaptops.id as vid,tblbrands.BrandName,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.Status  from tblbooking join tbllaptops on tblbooking.VehicleId=tbllaptops.id join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where tblbooking.userEmail=:useremail";
+                        $query = $dbh->prepare($sql);
+                        $query->bindParam(':useremail', $useremail, PDO::PARAM_STR);
+                        $query->execute();
+                        $results = $query->fetchAll(PDO::FETCH_OBJ);
+                        $cnt = 1;
+                        if ($query->rowCount() > 0) {
+                          foreach ($results as $result) {  ?>
 
-                      <div class="gray-bg field-title">
-                        <h6>Update password</h6>
-                      </div>
-                      <?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
-                      <div class="form-group">
-                        <label class="control-label">Current Password</label>
-                        <input class="form-control white_bg" id="password" name="password" type="password" required>
-                      </div>
-                      <div cl <div class="form-group">
-                        <label class="control-label">Password</label>
-                        <input class="form-control white_bg" id="newpassword" type="password" name="newpassword" required>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label">Confirm Password</label>
-                        <input class="form-control white_bg" id="confirmpassword" type="password" name="confirmpassword" required>
-                      </div>
+                            <li>
+                              <div class="vehicle_img"> <a href="laptop-details.php?vhid=<?php echo htmlentities($result->vid); ?>""><img src=" admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1); ?>" alt="image"></a> </div>
+                              <div class="vehicle_title">
+                                <h6><a href="laptop-details.php?vhid=<?php echo htmlentities($result->vid); ?>""> <?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></a></h6>
+                                <p>
+                                  <b>Serial Number:</b> <?php echo htmlentities($result->SerialNumber); ?><br/>
+                                  <b>Owner Email  :</b> <?php echo htmlentities($result->OwnerEmail); ?><br/>
+                                  <b>From Date    :</b> <?php echo htmlentities($result->FromDate); ?><br/>
+                                  <b>To Date      :</b> <?php echo htmlentities($result->ToDate); ?></p>
+                              </div>
+                              <?php if ($result->Status == 1) { ?>
+                                <div class=" vehicle_status"> <a href="#" class="btn outline btn-xs active-btn">Confirmed</a>
+                                    <div class="clearfix"></div>
+                              </div>
 
-                      <div class="form-group">
-                        <input type="submit" value="Update" name="update" id="submit" class="btn btn-block">
-                      </div>
-                    </form>
+                            <?php } else if ($result->Status == 2) { ?>
+                              <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Cancelled</a>
+                                <div class="clearfix"></div>
+                              </div>
+
+
+
+                            <?php } else { ?>
+                              <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Not Confirm yet</a>
+                                <div class="clearfix"></div>
+                              </div>
+                            <?php } ?>
+                            <div style="float: left">
+                              <p><b>Message:</b> <?php echo htmlentities($result->message); ?> </p>
+                            </div>
+                            </li>
+                        <?php }
+                        } ?>
+
+
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
         </section>
-        <!--/Profile-setting-->
+        <!--/my-vehicles-->
+        <?php include('includes/footer.php'); ?>
 
-        <<!--Footer -->
-          <?php include('includes/footer.php'); ?>
-          <!-- /Footer-->
-
-          <!--Back to top-->
-          <div id="back-top" class="back-top"> <a href="#top"><i class="fa fa-angle-up" aria-hidden="true"></i> </a> </div>
-          <!--/Back to top-->
-
-          <!--Login-Form -->
-          <?php include('includes/login.php'); ?>
-          <!--/Login-Form -->
-
-          <!--Register-Form -->
-          <?php include('includes/registration.php'); ?>
-
-          <!--/Register-Form -->
-
-          <!--Forgot-password-Form -->
-          <?php include('includes/forgotpassword.php'); ?>
-          <!--/Forgot-password-Form -->
-
-          <!-- Scripts -->
-          <script src="assets/js/jquery.min.js"></script>
-          <script src="assets/js/bootstrap.min.js"></script>
-          <script src="assets/js/interface.js"></script>
-          <!--Switcher-->
-          <script src="assets/switcher/js/switcher.js"></script>
-          <!--bootstrap-slider-JS-->
-          <script src="assets/js/bootstrap-slider.min.js"></script>
-          <!--Slider-JS-->
-          <script src="assets/js/slick.min.js"></script>
-          <script src="assets/js/owl.carousel.min.js"></script>
-
+        <!-- Scripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/interface.js"></script>
+        <!--Switcher-->
+        <script src="assets/switcher/js/switcher.js"></script>
+        <!--bootstrap-slider-JS-->
+        <script src="assets/js/bootstrap-slider.min.js"></script>
+        <!--Slider-JS-->
+        <script src="assets/js/slick.min.js"></script>
+        <script src="assets/js/owl.carousel.min.js"></script>
   </body>
 
   </html>

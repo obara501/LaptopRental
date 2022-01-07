@@ -52,6 +52,7 @@ if (isset($_POST['submit'])) {
   <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
   <!--FontAwesome Font Style -->
   <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
   <!-- SWITCHER -->
   <link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
@@ -112,7 +113,7 @@ if (isset($_POST['submit'])) {
             </div>
             <div class="col-md-3">
               <div class="price_info">
-                <p>$<?php echo htmlentities($result->PricePerDay); ?> </p>Per Day
+                <p>Ksh.<?php echo htmlentities($result->PricePerDay); ?> </p>Per Day
 
               </div>
             </div>
@@ -122,16 +123,16 @@ if (isset($_POST['submit'])) {
               <div class="main_features">
                 <ul>
 
-                  <li> <i class="fa fa-calendar" aria-hidden="true"></i>
+                  <li> <i class="fa fa-hdd-o" aria-hidden="true"></i>
                     <h5><?php echo htmlentities($result->Storage); ?></h5>
                     <p>Storage</p>
                   </li>
-                  <li> <i class="fa fa-cogs" aria-hidden="true"></i>
+                  <li> <i class="bi bi-cpu" aria-hidden="true"></i>
                     <h5><?php echo htmlentities($result->Processor); ?></h5>
                     <p>Processor</p>
                   </li>
 
-                  <li> <i class="fa fa-user-plus" aria-hidden="true"></i>
+                  <li> <i class="bi bi-memory" aria-hidden="true"></i>
                     <h5><?php echo htmlentities($result->RAM); ?></h5>
                     <p>RAM</p>
                   </li>
@@ -264,13 +265,13 @@ if (isset($_POST['submit'])) {
                       </div>
                       <div class="product-listing-content">
                         <h5><a href="laptop-details.php?vhid=<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></a></h5>
-                        <p class="list-price">$<?php echo htmlentities($result->PricePerDay); ?></p>
+                        <p class="list-price">Ksh.<?php echo htmlentities($result->PricePerDay); ?></p>
 
                         <ul class="features_list">
 
-                          <li><i class="fa fa-user" aria-hidden="true"></i><?php echo htmlentities($result->RAM); ?></li>
-                          <li><i class="fa fa-calendar" aria-hidden="true"></i><?php echo htmlentities($result->Storage); ?></li>
-                          <li><i class="fa fa-car" aria-hidden="true"></i><?php echo htmlentities($result->Processor); ?></li>
+                          <li><i class="bi bi-memory" aria-hidden="true"></i><?php echo htmlentities($result->RAM); ?></li>
+                          <li><i class="fa fa-hdd-o" aria-hidden="true"></i><?php echo htmlentities($result->Storage); ?></li>
+                          <li><i class="bi bi-cpu" aria-hidden="true"></i><?php echo htmlentities($result->Processor); ?></li>
                         </ul>
                       </div>
                     </div>

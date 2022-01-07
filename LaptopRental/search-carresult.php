@@ -26,7 +26,8 @@ error_reporting(0);
   <!--bootstrap-slider -->
   <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
   <!--FontAwesome Font Style -->
-  <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
   <!-- SWITCHER -->
   <link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
@@ -83,9 +84,12 @@ error_reporting(0);
             <div class="sorting-count">
               <?php
               //Query for Listing count
-              $sql = "SELECT id from tbllaptops";
+              $brand = $_POST['brand'];
+              $processor = $_POST['processor'];
+              $sql = "SELECT id from tbllaptops where tbllaptops.VehiclesBrand=:brand and tbllaptops.Processor=:processor";
               $query = $dbh->prepare($sql);
-              $query->bindParam(':vhid', $vhid, PDO::PARAM_STR);
+              $query->bindParam(':brand', $brand, PDO::PARAM_STR);
+              $query->bindParam(':processor', $processor, PDO::PARAM_STR);
               $query->execute();
               $results = $query->fetchAll(PDO::FETCH_OBJ);
               $cnt = $query->rowCount();
@@ -94,24 +98,27 @@ error_reporting(0);
             </div>
           </div>
 
-          <?php $sql = "SELECT tbllaptops.*,tblbrands.BrandName,tblbrands.id as bid  from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand";
+          <?php
+
+          $sql = "SELECT tbllaptops.*,tblbrands.BrandName,tblbrands.id as bid  from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where tbllaptops.VehiclesBrand=:brand and tbllaptops.Processor=:processor";
           $query = $dbh->prepare($sql);
+          $query->bindParam(':brand', $brand, PDO::PARAM_STR);
+          $query->bindParam(':processor', $processor, PDO::PARAM_STR);
           $query->execute();
           $results = $query->fetchAll(PDO::FETCH_OBJ);
           $cnt = 1;
           if ($query->rowCount() > 0) {
             foreach ($results as $result) {  ?>
               <div class="product-listing-m gray-bg">
-                <div class="product-listing-img">
-                <img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1); ?>" class="img-responsive" alt="Image" /> </a>
+                <div class="product-listing-img"><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1); ?>" class="img-responsive" alt="Image" /> </a>
                 </div>
                 <div class="product-listing-content">
                   <h5><a href="laptop-details.php?vhid=<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></a></h5>
                   <p class="list-price">$<?php echo htmlentities($result->PricePerDay); ?> Per Day</p>
                   <ul>
-                    <li><i class="fa fa-user" aria-hidden="true"></i><?php echo htmlentities($result->RAM); ?></li>
-                    <li><i class="fa fa-calendar" aria-hidden="true"></i><?php echo htmlentities($result->Storage); ?></li>
-                    <li><i class="fa fa-car" aria-hidden="true"></i><?php echo htmlentities($result->Processor); ?></li>
+                    <li><i class="bi bi-memory" aria-hidden="true"></i><?php echo htmlentities($result->RAM); ?> </li>
+                    <li><i class="fa fa-hdd-o" aria-hidden="true"></i><?php echo htmlentities($result->Storage); ?></li>
+                    <li><i class="bi bi-cpu" aria-hidden="true"></i><?php echo htmlentities($result->Processor); ?></li>
                   </ul>
                   <a href="laptop-details.php?vhid=<?php echo htmlentities($result->id); ?>" class="btn">View Details <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
                 </div>
@@ -124,12 +131,12 @@ error_reporting(0);
         <aside class="col-md-3 col-md-pull-9">
           <div class="sidebar_widget">
             <div class="widget_heading">
-              <h5><i class="fa fa-filter" aria-hidden="true"></i> Find Your Car </h5>
+              <h5><i class="fa fa-filter" aria-hidden="true"></i> Find Your Laptop </h5>
             </div>
             <div class="sidebar_filter">
-              <form action="search-carresult.php" method="post">
+              <form action="#" method="get">
                 <div class="form-group select">
-                  <select class="form-control" name="brand">
+                  <select class="form-control">
                     <option>Select Brand</option>
 
                     <?php $sql = "SELECT * from  tblbrands ";
@@ -146,7 +153,7 @@ error_reporting(0);
                   </select>
                 </div>
                 <div class="form-group select">
-                  <select class="form-control" name="processor">
+                  <select class="form-control">
                     <option>Select Processor</option>
                     <option value="Petrol">Petrol</option>
                     <option value="Diesel">Diesel</option>
@@ -163,7 +170,7 @@ error_reporting(0);
 
           <div class="sidebar_widget">
             <div class="widget_heading">
-              <h5><i class="fa fa-car" aria-hidden="true"></i> Recently Listed Cars</h5>
+              <h5><i class="bi bi-cpu" aria-hidden="true"></i> Recently Listed Cars</h5>
             </div>
             <div class="recent_addedcars">
               <ul>

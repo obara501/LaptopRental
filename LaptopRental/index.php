@@ -23,6 +23,7 @@ error_reporting(0);
   <link href="assets/css/slick.css" rel="stylesheet">
   <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
   <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
   <link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
   <link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/red.css" title="red" media="all" data-default-color="true" />
   <link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/orange.css" title="orange" media="all" />
@@ -104,7 +105,7 @@ error_reporting(0);
         <!-- Recently Listed New Cars -->
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="resentnewcar">
-            <?php $sql = "SELECT tbllaptops.LaptopTitle,tbllaptops.OwnerEmail,tblbrands.BrandName,tbllaptops.PricePerDay,tbllaptops.Processor,tbllaptops.Storage,tbllaptops.id,tbllaptops.RAM,tbllaptops.LaptopOverview,tbllaptops.Vimage1 from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where OwnerEmail!=$mail;";
+            <?php $sql = "SELECT tbllaptops.LaptopTitle,tbllaptops.OwnerEmail,tblbrands.BrandName,tbllaptops.PricePerDay,tbllaptops.Processor,tbllaptops.Storage,tbllaptops.id,tbllaptops.RAM,tbllaptops.LaptopOverview,tbllaptops.Vimage1 from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand;";
             $query = $dbh->prepare($sql);
             $query->execute();
             $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -117,14 +118,14 @@ error_reporting(0);
                     <div class="car-info-box"> <a href="laptop-details.php?vhid=<?php echo htmlentities($result->id); ?>">
                         <img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1); ?>" class="img-responsive" alt="image"></a>
                       <ul>
-                        <li><i class="fa fa-car" aria-hidden="true"></i><?php echo htmlentities($result->Processor); ?></li>
-                        <li><i class="fa fa-calendar" aria-hidden="true"></i><?php echo htmlentities($result->Storage); ?></li>
-                        <li><i class="fa fa-user" aria-hidden="true"></i><?php echo htmlentities($result->RAM); ?></li>
+                        <li><i class="bi bi-cpu" aria-hidden="true"></i><?php echo htmlentities($result->Processor); ?></li>
+                        <li><i class="fa fa-hdd-o" aria-hidden="true"></i><?php echo htmlentities($result->Storage); ?></li>
+                        <li><i class="bi bi-memory" aria-hidden="true"></i><?php echo htmlentities($result->RAM); ?></li>
                       </ul>
                     </div>
                     <div class="car-title-m">
                       <h6><a href="laptop-details.php?vhid=<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></a></h6>
-                      <span class="price">$<?php echo htmlentities($result->PricePerDay); ?> /Day</span>
+                      <span class="price">Ksh.<?php echo htmlentities($result->PricePerDay); ?> /Day</span>
                     </div>
                     <div class="inventory_info_m">
                       <p><?php echo substr($result->LaptopOverview, 0, 70); ?></p>
@@ -141,46 +142,39 @@ error_reporting(0);
   <!-- /Resent Cat -->
 
   <!-- Fun Facts-->
-  <section class="fun-facts-section">
+  <!-- <section class="fun-facts-section">
     <div class="container div_zindex">
       <div class="row">
         <div class="col-lg-3 col-xs-6 col-sm-3">
           <div class="fun-facts-m">
             <div class="cell">
-              <h2><i class="fa fa-calendar" aria-hidden="true"></i>40+</h2>
-              <p>Years In Business</p>
+              <h2><i class="fa fa-hdd-o" aria-hidden="true"></i>5+</h2>
+              <p>Brands to choose from</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6 col-sm-3">
+          <div class="fun-facts-m">
+            <div class="cell">
+              <h2><i class="bi bi-cpu" aria-hidden="true"></i>100+</h2>
+              <p>Laptops for rent</p>
             </div>
           </div>
         </div>
         <div class="col-lg-3 col-xs-6 col-sm-3">
           <div class="fun-facts-m">
             <div class="cell">
-              <h2><i class="fa fa-car" aria-hidden="true"></i>1200+</h2>
-              <p>New Cars For Sale</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-xs-6 col-sm-3">
-          <div class="fun-facts-m">
-            <div class="cell">
-              <h2><i class="fa fa-car" aria-hidden="true"></i>1000+</h2>
-              <p>Used Cars For Sale</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-xs-6 col-sm-3">
-          <div class="fun-facts-m">
-            <div class="cell">
-              <h2><i class="fa fa-user-circle-o" aria-hidden="true"></i>600+</h2>
+              <h2><i class="fa fa-user-circle-o" aria-hidden="true"></i>100+</h2>
               <p>Satisfied Customers</p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- Dark Overlay-->
+    //Dark overlay
     <div class="dark-overlay"></div>
-  </section>
+  </section> -->
   <!-- /Fun Facts-->
 
 

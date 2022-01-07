@@ -74,7 +74,8 @@ if (strlen($_SESSION['login']) == 0) {
 	<link rel="stylesheet" href="assets/css/owl.transitions.css" type="text/css">
 	<link href="assets/css/slick.css" rel="stylesheet">
 	<link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
-	<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+	  <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
 	<link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
 	<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/red.css" title="red" media="all" data-default-color="true" />

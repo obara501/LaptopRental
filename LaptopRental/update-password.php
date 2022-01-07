@@ -5,25 +5,26 @@ include('includes/config.php');
 if (strlen($_SESSION['login']) == 0) {
   header('location:index.php');
 } else {
-  if (isset($_POST['updateprofile'])) {
-    $name = $_POST['fullname'];
-    $mobileno = $_POST['mobilenumber'];
-    $dob = $_POST['dob'];
-    $adress = $_POST['address'];
-    $city = $_POST['city'];
-    $country = $_POST['country'];
+  if (isset($_POST['update'])) {
+    $password = ($_POST['password']);
+    $newpassword = ($_POST['newpassword']);
     $email = $_SESSION['login'];
-    $sql = "update tblusers set FullName=:name,ContactNo=:mobileno,dob=:dob,Address=:adress,City=:city,Country=:country where EmailId=:email";
+    $sql = "SELECT Password FROM tblusers WHERE EmailId=:email and Password=:password";
     $query = $dbh->prepare($sql);
-    $query->bindParam(':name', $name, PDO::PARAM_STR);
-    $query->bindParam(':mobileno', $mobileno, PDO::PARAM_STR);
-    $query->bindParam(':dob', $dob, PDO::PARAM_STR);
-    $query->bindParam(':adress', $adress, PDO::PARAM_STR);
-    $query->bindParam(':city', $city, PDO::PARAM_STR);
-    $query->bindParam(':country', $country, PDO::PARAM_STR);
     $query->bindParam(':email', $email, PDO::PARAM_STR);
+    $query->bindParam(':password', $password, PDO::PARAM_STR);
     $query->execute();
-    $msg = "Profile Updated Successfully";
+    $results = $query->fetchAll(PDO::FETCH_OBJ);
+    if ($query->rowCount() > 0) {
+      $con = "update tblusers set Password=:newpassword where EmailId=:email";
+      $chngpwd1 = $dbh->prepare($con);
+      $chngpwd1->bindParam(':email', $email, PDO::PARAM_STR);
+      $chngpwd1->bindParam(':newpassword', $newpassword, PDO::PARAM_STR);
+      $chngpwd1->execute();
+      $msg = "Your Password succesfully changed";
+    } else {
+      $error = "Your current password is wrong";
+    }
   }
 
 ?>
@@ -36,7 +37,7 @@ if (strlen($_SESSION['login']) == 0) {
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title>Laptop Rental Portal | My Profile</title>
+    <title>CarForYou - Responsive Car Dealer HTML5 Template</title>
     <!--Bootstrap -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
     <!--Custome Style -->
@@ -49,7 +50,8 @@ if (strlen($_SESSION['login']) == 0) {
     <!--bootstrap-slider -->
     <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
     <!--FontAwesome Font Style -->
-    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+      <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
     <!-- SWITCHER -->
     <link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
@@ -59,12 +61,25 @@ if (strlen($_SESSION['login']) == 0) {
     <link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/pink.css" title="pink" media="all" />
     <link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/green.css" title="green" media="all" />
     <link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/purple.css" title="purple" media="all" />
+
+    <!-- Fav and touch icons -->
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/favicon-icon/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/favicon-icon/apple-touch-icon-114-precomposed.html">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/favicon-icon/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="assets/images/favicon-icon/apple-touch-icon-57-precomposed.png">
     <link rel="shortcut icon" href="assets/images/favicon-icon/favicon.png">
+    <!-- Google-Font-->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+    <script type="text/javascript">
+      function valid() {
+        if (document.chngpwd.newpassword.value != document.chngpwd.confirmpassword.value) {
+          alert("New Password and Confirm Password Field do not match  !!");
+          document.chngpwd.confirmpassword.focus();
+          return false;
+        }
+        return true;
+      }
+    </script>
     <style>
       .errorWrap {
         padding: 10px;
@@ -100,11 +115,11 @@ if (strlen($_SESSION['login']) == 0) {
       <div class="container">
         <div class="page-header_wrap">
           <div class="page-heading">
-            <h1>Your Profile</h1>
+            <h1>Update Password</h1>
           </div>
           <ul class="coustom-breadcrumb">
             <li><a href="#">Home</a></li>
-            <li>Profile</li>
+            <li>Update Password</li>
           </ul>
         </div>
       </div>
@@ -112,7 +127,6 @@ if (strlen($_SESSION['login']) == 0) {
       <div class="dark-overlay"></div>
     </section>
     <!-- /Page Header-->
-
 
     <?php
     $useremail = $_SESSION['login'];
@@ -133,63 +147,38 @@ if (strlen($_SESSION['login']) == 0) {
               <div class="dealer_info">
                 <h5><?php echo htmlentities($result->FullName); ?></h5>
                 <p><?php echo htmlentities($result->Address); ?><br>
-                  <?php echo htmlentities($result->City); ?>&nbsp;<?php echo htmlentities($result->Country); ?></p>
+                  <?php echo htmlentities($result->City); ?>&nbsp;<?php echo htmlentities($result->Country);
+                                                                }
+                                                              } ?></p>
               </div>
             </div>
-
             <div class="row">
               <div class="col-md-3 col-sm-3">
                 <?php include('includes/sidebar.php'); ?>
                 <div class="col-md-6 col-sm-8">
                   <div class="profile_wrap">
-                    <h5 class="uppercase underline">Genral Settings</h5>
-                    <?php
-                    if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
-                    <form method="post">
-                      <div class="form-group">
-                        <label class="control-label">Reg Date -</label>
-                        <?php echo htmlentities($result->RegDate); ?>
-                      </div>
-                      <?php if ($result->UpdationDate != "") { ?>
-                        <div class="form-group">
-                          <label class="control-label">Last Update at -</label>
-                          <?php echo htmlentities($result->UpdationDate); ?>
-                        </div>
-                      <?php } ?>
-                      <div class="form-group">
-                        <label class="control-label">Full Name</label>
-                        <input class="form-control white_bg" name="fullname" value="<?php echo htmlentities($result->FullName); ?>" id="fullname" type="text" required>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label">Email Address</label>
-                        <input class="form-control white_bg" value="<?php echo htmlentities($result->EmailId); ?>" name="emailid" id="email" type="email" required readonly>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label">Phone Number</label>
-                        <input class="form-control white_bg" name="mobilenumber" value="<?php echo htmlentities($result->ContactNo); ?>" id="phone-number" type="text" required>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label">Date of Birth&nbsp;(dd/mm/yyyy)</label>
-                        <input class="form-control white_bg" value="<?php echo htmlentities($result->dob); ?>" name="dob" placeholder="dd/mm/yyyy" id="birth-date" type="text">
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label">Your Address</label>
-                        <textarea class="form-control white_bg" name="address" rows="4"><?php echo htmlentities($result->Address); ?></textarea>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label">Country</label>
-                        <input class="form-control white_bg" id="country" name="country" value="<?php echo htmlentities($result->City); ?>" type="text">
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label">City</label>
-                        <input class="form-control white_bg" id="city" name="city" value="<?php echo htmlentities($result->City); ?>" type="text">
-                      </div>
-                  <?php }
-              } ?>
+                    <form name="chngpwd" method="post" onSubmit="return valid();">
 
-                  <div class="form-group">
-                    <button type="submit" name="updateprofile" class="btn">Save Changes <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-                  </div>
+                      <div class="gray-bg field-title">
+                        <h6>Update password</h6>
+                      </div>
+                      <?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
+                      <div class="form-group">
+                        <label class="control-label">Current Password</label>
+                        <input class="form-control white_bg" id="password" name="password" type="password" required>
+                      </div>
+                      <div cl <div class="form-group">
+                        <label class="control-label">Password</label>
+                        <input class="form-control white_bg" id="newpassword" type="password" name="newpassword" required>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label">Confirm Password</label>
+                        <input class="form-control white_bg" id="confirmpassword" type="password" name="confirmpassword" required>
+                      </div>
+
+                      <div class="form-group">
+                        <input type="submit" value="Update" name="update" id="submit" class="btn btn-block">
+                      </div>
                     </form>
                   </div>
                 </div>
