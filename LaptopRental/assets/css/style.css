@@ -3838,7 +3838,7 @@ table.info-tabel tr td {
 .vehicle_status {
   float: right;
   text-align: right;
-  width: 29%;
+  width: 25%;
 }
 .vehicle_status a i {
 	margin:10px 0 0 8px;

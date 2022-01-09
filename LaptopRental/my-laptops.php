@@ -5,6 +5,16 @@ include('includes/config.php');
 if (strlen($_SESSION['login']) == 0) {
   header('location:index.php');
 } else {
+
+  if (isset($_REQUEST['del'])) {
+		$delid = intval($_GET['del']);
+		$sql = "delete from tbllaptops  WHERE  id=:delid";
+		$query = $dbh->prepare($sql);
+		$query->bindParam(':delid', $delid, PDO::PARAM_STR);
+		$query->execute();
+		$msg = "Laptop record deleted successfully";
+	}
+
   if (isset($_REQUEST['eid'])) {
     $eid = intval($_GET['eid']);
     $status = "2";
@@ -26,8 +36,9 @@ if (strlen($_SESSION['login']) == 0) {
     $query->execute();
     $msg = "Booking Successfully Confirmed";
   }
-?>
+ 
 
+?>
   <!DOCTYPE html>
   <html lang="en">
 
@@ -76,26 +87,6 @@ if (strlen($_SESSION['login']) == 0) {
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-    <style>
-      .errorWrap {
-        padding: 10px;
-        margin: 0 0 20px 0;
-        background: #fff;
-        border-left: 4px solid #dd3d36;
-        -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-      }
-
-      .succWrap {
-        padding: 10px;
-        margin: 0 0 20px 0;
-        background: #fff;
-        border-left: 4px solid #5cb85c;
-        -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-      }
-    </style>
   </head>
 
   <body>
@@ -117,7 +108,7 @@ if (strlen($_SESSION['login']) == 0) {
             <h1>My Laptops</h1>
           </div>
           <ul class="coustom-breadcrumb">
-            <li><a href="index.php">Home</a></li>
+            <li><a href="#">Home</a></li>
             <li>My Laptops</li>
           </ul>
         </div>
@@ -140,7 +131,7 @@ if (strlen($_SESSION['login']) == 0) {
         <section class="user_profile inner_pages">
           <div class="container">
             <div class="user_profile_info gray-bg padding_4x4_40">
-              <div class="upload_user_logo"> <img src="assets/images/dealer-logo.jpg" alt="image">
+              <div class="upload_user_logo">
               </div>
 
               <div class="dealer_info">
@@ -157,39 +148,46 @@ if (strlen($_SESSION['login']) == 0) {
 
                 <div class="col-md-6 col-sm-8">
                   <div class="profile_wrap">
-                    <h5 class="uppercase underline">My Laptops</h5>
+                    <h5 class="uppercase underline">My Laptops </h5>
                     <div class="my_vehicles_list">
                       <ul class="vehicle_listing">
                         <?php
                         $useremail = $_SESSION['login'];
-                        $sql = "SELECT tbllaptops.SerialNumber,tbllaptops.LaptopTitle,tbllaptops.OwnerEmail,tblbrands.BrandName,tbllaptops.PricePerDay,tbllaptops.Processor,tbllaptops.Storage,tbllaptops.id,tbllaptops.RAM,tbllaptops.LaptopOverview,tbllaptops.Vimage1 from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where tbllaptops.OwnerEmail=?;";
+                        $sql = "SELECT tbllaptops.SerialNumber,tbllaptops.LaptopTitle,tbllaptops.OwnerEmail,tbllaptops.online,tblbrands.BrandName,tbllaptops.id,tbllaptops.Vimage1 from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where tbllaptops.OwnerEmail=?;";
                         $query = $dbh->prepare($sql);
                         $query->execute([$useremail]);
                         $results = $query->fetchAll(PDO::FETCH_OBJ);
-                        $serialnumber = ($result->SerialNumber);
                         $cnt = 1;
                         if ($query->rowCount() > 0) {
                           foreach ($results as $result) {  ?>
-
                             <li>
                               <div class="vehicle_img"> <a href="laptop-details.php?vhid=<?php echo htmlentities($result->vid); ?>""><img src=" admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1); ?>" alt="image"></a> </div>
                               <div class="vehicle_title">
                                 <h6><a href="laptop-details.php?vhid=<?php echo htmlentities($result->vid); ?>""> <?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></a></h6>
-                                <p>
-                                  <b>Serial Number:</b> <?php echo htmlentities($result->SerialNumber); ?><br/>
-                                  <b>Owner Email  :</b> <?php echo htmlentities($result->OwnerEmail); ?><br/>
-                              </div>
-                              <?php if ($result->Status == 1) { ?>
-                                <div class=" vehicle_status"> <a href="#" class="btn outline btn-xs active-btn">Active</a>
-                                    <div class="clearfix"></div>
-                              </div>
+                                <p style>
+                                  <b>Serial Number :</b> <?php echo htmlentities($result->SerialNumber); ?><br>
+                                  <b>Owner Email   :</b> <?php echo htmlentities($result->OwnerEmail); ?><br>
+                                </p>
+                                
+                                <?php if ($result->online == 1) { ?>
+                                <div class="vehicle_status"> 
+                                  <a href="deactivate.php?stat=<?php echo $result->id; ?>" class="btn outline btn-xs active-btn">Active</a>
+                                  <div class="clearfix"></div>
+                                  <a href="editlaptop.php?id=<?php echo $result->id; ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                  <a href="my-laptops.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete');"><i class="fa fa-trash"></i></a>
+                                </div>
 
-                            <?php } else if ($result->Status == 2) { ?>
-                              <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Inactive</a>
-                                <div class="clearfix"></div>
-                              </div>
+                                <?php } else if ($result->online == 2) { ?>
+                                <div class="vehicle_status"> 
+                                <a href="activate.php?stat=<?php echo $result->id; ?>" class="btn outline btn-xs">Inactive</a>
+                                  <div class="clearfix"></div>
+                                  <a href="editlaptop.php?id=<?php echo $result->id; ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                  <a href="my-laptops.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete');"><i class="fa fa-trash"></i></a>
+                                </div>
 
                             <?php } ?>
+
+
                             </li>
                         <?php }
                         } ?>
@@ -197,6 +195,7 @@ if (strlen($_SESSION['login']) == 0) {
 
                       </ul>
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -204,9 +203,7 @@ if (strlen($_SESSION['login']) == 0) {
         </section>
 
 
-
         <div class="ts-main-content">
-          <?php include('includes/leftbar.php'); ?>
           <div class="content-wrapper">
             <div class="container-fluid">
 
@@ -225,6 +222,7 @@ if (strlen($_SESSION['login']) == 0) {
                           <tr>
                             <th>#</th>
                             <th>Name</th>
+                            <th>Borrower Email</th>
                             <th>Laptop</th>
                             <th>S/No</th>
                             <th>From Date</th>
@@ -239,6 +237,7 @@ if (strlen($_SESSION['login']) == 0) {
                           <tr>
                             <th>#</th>
                             <th>Name</th>
+                            <th>Borrower Email</th>
                             <th>Laptop</th>
                             <th>S/No</th>
                             <th>From Date</th>
@@ -251,10 +250,11 @@ if (strlen($_SESSION['login']) == 0) {
                         </tfoot>
                         <tbody>
 
-                          <?php $sql = "SELECT tblusers.FullName,tblbrands.BrandName,tbllaptops.id,tbllaptops.OwnerEmail,tbllaptops.SerialNumber,tbllaptops.LaptopTitle,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.VehicleId as vid,tblbooking.Status,tblbooking.PostingDate,tblbooking.id  from tblbooking join tbllaptops on tbllaptops.id=tblbooking.VehicleId join tblusers on tblusers.EmailId=tblbooking.userEmail join tblbrands on tbllaptops.VehiclesBrand=tblbrands.id where tbllaptops.id=tblbooking.VehicleId";
+                          <?php
                           $useremail = $_SESSION['login'];
+                          $sql = "SELECT tblusers.FullName,tblusers.EmailId,tblbrands.BrandName,tbllaptops.id,tbllaptops.OwnerEmail,tbllaptops.SerialNumber,tbllaptops.LaptopTitle,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.VehicleId as vid,tblbooking.Status,tblbooking.userEmail,tblbooking.PostingDate,tblbooking.id from tblbooking join tbllaptops on tbllaptops.id=tblbooking.VehicleId join tblusers on tblusers.EmailId=tbllaptops.OwnerEmail join tblbrands on tbllaptops.VehiclesBrand=tblbrands.id where tblusers.EmailId=?";
                           $query = $dbh->prepare($sql);
-                          $query->execute();
+                          $query->execute([$useremail]);
                           $results = $query->fetchAll(PDO::FETCH_OBJ);
                           $cnt = 1;
                           if ($query->rowCount() > 0) {
@@ -262,6 +262,7 @@ if (strlen($_SESSION['login']) == 0) {
                               <tr>
                                 <td><?php echo htmlentities($cnt); ?></td>
                                 <td><?php echo htmlentities($result->FullName); ?></td>
+                                <td><a href="mailto:<?php echo htmlentities($result->userEmail); ?>"><?php echo htmlentities($result->userEmail); ?></a></td>
                                 <td><a href="edit-laptop.php?id=<?php echo htmlentities($result->vid); ?>"><?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></td>
                                 <td><?php echo htmlentities($result->SerialNumber); ?></td>
                                 <td><?php echo htmlentities($result->FromDate); ?></td>
@@ -278,51 +279,32 @@ if (strlen($_SESSION['login']) == 0) {
                                     ?></td>
                                 <td><?php echo htmlentities($result->PostingDate); ?></td>
                                 <td>
-                                  <a href="manage-bookings.php?aeid=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Do you really want to Confirm this booking')"> Confirm</a> /
-                                  <a href="manage-bookings.php?eid=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Do you really want to Cancel this Booking')"> Cancel</a>
+                                  <a href="my-laptops.php?aeid=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Do you really want to Confirm this booking')"> Confirm</a> /
+                                  <a href="my-laptops.php?eid=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Do you really want to Cancel this Booking')"> Cancel</a>
                                 </td>
 
                               </tr>
                           <?php $cnt = $cnt + 1;
                             }
-                          } ?>
+                          }
+                          ?>
 
                         </tbody>
                       </table>
 
-
-
                     </div>
                   </div>
-
-
-
                 </div>
               </div>
-
             </div>
           </div>
         </div>
 
 
-
-
         <!--/my-vehicles-->
-
         <?php include('includes/footer.php'); ?>
 
-        <!-- Loading Scripts -->
-        <script src="./admin/js/jquery.min.js"></script>
-        <script src="./admin/js/bootstrap-select.min.js"></script>
-        <script src="./admin/js/bootstrap.min.js"></script>
-        <script src="./admin/js/jquery.dataTables.min.js"></script>
-        <script src="./admin/js/dataTables.bootstrap.min.js"></script>
-        <script src="./admin/js/Chart.min.js"></script>
-        <script src="./admin/js/fileinput.js"></script>
-        <script src="./admin/js/chartData.js"></script>
-        <script src="./admin/js/main.js"></script>
-
-
+        <!-- Scripts -->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
         <script src="assets/js/interface.js"></script>

@@ -161,7 +161,7 @@ if (strlen($_SESSION['login']) == 0) {
 
 												<label class="col-sm-2 control-label">Owner Email<span style="color:red">*</span></label>
 												<div class="col-sm-4">
-													<input type="email" name="emailid" class="form-control"  value = "<?php echo htmlentities($results->EmailId); ?>" onBlur="checkAvailability()" required>
+													<input type="email" name="emailid" class="form-control"  value = "<?php echo htmlentities($results->EmailId); ?>" readonly onBlur="checkAvailability()" required>
 													<span id="user-availability-status" style="font-size:12px;"></span>
 												</div>
 											</div>
