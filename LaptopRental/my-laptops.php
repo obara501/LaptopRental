@@ -28,8 +28,8 @@ if (strlen($_SESSION['login']) == 0) {
     <!--bootstrap-slider -->
     <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
     <!--FontAwesome Font Style -->
-      <link href="assets/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
     <!-- SWITCHER -->
     <link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
@@ -115,16 +115,16 @@ if (strlen($_SESSION['login']) == 0) {
 
                 <div class="col-md-6 col-sm-8">
                   <div class="profile_wrap">
-                    <h5 class="uppercase underline">My Laptopss </h5>
+                    <h5 class="uppercase underline">My Laptops</h5>
                     <div class="my_vehicles_list">
                       <ul class="vehicle_listing">
                         <?php
                         $useremail = $_SESSION['login'];
-                        $sql = "SELECT tbllaptops.Vimage1 as Vimage1,tbllaptops.LaptopTitle,tbllaptops.SerialNumber,tbllaptops.OwnerEmail,tbllaptops.id as vid,tblbrands.BrandName,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.Status  from tblbooking join tbllaptops on tblbooking.VehicleId=tbllaptops.id join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where tblbooking.userEmail=:useremail";
+                        $sql = "SELECT tbllaptops.SerialNumber,tbllaptops.LaptopTitle,tbllaptops.OwnerEmail,tblbrands.BrandName,tbllaptops.PricePerDay,tbllaptops.Processor,tbllaptops.Storage,tbllaptops.id,tbllaptops.RAM,tbllaptops.LaptopOverview,tbllaptops.Vimage1 from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where tbllaptops.OwnerEmail=?;";
                         $query = $dbh->prepare($sql);
-                        $query->bindParam(':useremail', $useremail, PDO::PARAM_STR);
-                        $query->execute();
+                        $query->execute([$useremail]);
                         $results = $query->fetchAll(PDO::FETCH_OBJ);
+                        $serialnumber = ($result->SerialNumber);
                         $cnt = 1;
                         if ($query->rowCount() > 0) {
                           foreach ($results as $result) {  ?>
@@ -136,8 +136,6 @@ if (strlen($_SESSION['login']) == 0) {
                                 <p>
                                   <b>Serial Number:</b> <?php echo htmlentities($result->SerialNumber); ?><br/>
                                   <b>Owner Email  :</b> <?php echo htmlentities($result->OwnerEmail); ?><br/>
-                                  <b>From Date    :</b> <?php echo htmlentities($result->FromDate); ?><br/>
-                                  <b>To Date      :</b> <?php echo htmlentities($result->ToDate); ?></p>
                               </div>
                               <?php if ($result->Status == 1) { ?>
                                 <div class=" vehicle_status"> <a href="#" class="btn outline btn-xs active-btn">Confirmed</a>
@@ -156,9 +154,6 @@ if (strlen($_SESSION['login']) == 0) {
                                 <div class="clearfix"></div>
                               </div>
                             <?php } ?>
-                            <div style="float: left">
-                              <p><b>Message:</b> <?php echo htmlentities($result->message); ?> </p>
-                            </div>
                             </li>
                         <?php }
                         } ?>
@@ -171,10 +166,113 @@ if (strlen($_SESSION['login']) == 0) {
               </div>
             </div>
         </section>
+
+
+
+        <div class="ts-main-content">
+          <?php include('includes/leftbar.php'); ?>
+          <div class="content-wrapper">
+            <div class="container-fluid">
+
+              <div class="row">
+                <div class="col-md-12">
+
+                  <h2 class="page-title" style="text-align: center;">Manage Bookings</h2>
+
+                  <!-- Zero Configuration Table -->
+                  <div class="panel panel-default">
+                    <div class="panel-heading">Bookings Info</div>
+                    <div class="panel-body">
+                      <?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
+                      <table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Laptop</th>
+                            <th>S/No</th>
+                            <th>From Date</th>
+                            <th>To Date</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                            <th>Date Posted</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tfoot>
+                          <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Laptop</th>
+                            <th>S/No</th>
+                            <th>From Date</th>
+                            <th>To Date</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                            <th>Date Posted</th>
+                            <th>Action</th>
+                          </tr>
+                        </tfoot>
+                        <tbody>
+
+                          <?php $sql = "SELECT tblusers.FullName,tblbrands.BrandName,tbllaptops.id,tbllaptops.OwnerEmail,tbllaptops.SerialNumber,tbllaptops.LaptopTitle,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.VehicleId as vid,tblbooking.Status,tblbooking.PostingDate,tblbooking.id  from tblbooking join tbllaptops on tbllaptops.id=tblbooking.VehicleId join tblusers on tblusers.EmailId=tblbooking.userEmail join tblbrands on tbllaptops.VehiclesBrand=tblbrands.id where tbllaptops.id=tblbooking.VehicleId";
+                          $useremail = $_SESSION['login'];
+                          $query = $dbh->prepare($sql);
+                          $query->execute();
+                          $results = $query->fetchAll(PDO::FETCH_OBJ);
+                          $cnt = 1;
+                          if ($query->rowCount() > 0) {
+                            foreach ($results as $result) {        ?>
+                              <tr>
+                                <td><?php echo htmlentities($cnt); ?></td>
+                                <td><?php echo htmlentities($result->FullName); ?></td>
+                                <td><a href="edit-laptop.php?id=<?php echo htmlentities($result->vid); ?>"><?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></td>
+                                <td><?php echo htmlentities($result->SerialNumber); ?></td>
+                                <td><?php echo htmlentities($result->FromDate); ?></td>
+                                <td><?php echo htmlentities($result->ToDate); ?></td>
+                                <td><?php echo htmlentities($result->message); ?></td>
+                                <td><?php
+                                    if ($result->Status == 0) {
+                                      echo htmlentities('Not Confirmed yet');
+                                    } else if ($result->Status == 1) {
+                                      echo htmlentities('Confirmed');
+                                    } else {
+                                      echo htmlentities('Cancelled');
+                                    }
+                                    ?></td>
+                                <td><?php echo htmlentities($result->PostingDate); ?></td>
+                                <td>
+                                  <a href="manage-bookings.php?aeid=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Do you really want to Confirm this booking')"> Confirm</a> /
+                                  <a href="manage-bookings.php?eid=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Do you really want to Cancel this Booking')"> Cancel</a>
+                                </td>
+
+                              </tr>
+                          <?php $cnt = $cnt + 1;
+                            }
+                          } ?>
+
+                        </tbody>
+                      </table>
+
+
+
+                    </div>
+                  </div>
+
+
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+
+
         <!--/my-vehicles-->
         <?php include('includes/footer.php'); ?>
-
-        <!-- Scripts -->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
         <script src="assets/js/interface.js"></script>

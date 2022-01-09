@@ -5,7 +5,7 @@
         <div class="col-sm-3 col-md-2">
           <div class="logo"style ="length=153px"> <a href="index.php"><img src="assets/images/logo.png" alt="image" /></a> </div>
         </div>
-        <div class="col-sm-9 col-md-10">
+        <div class="col-sm-9 col-md-10" style="margin-top: 15px;">
           <div class="header_info">
             <div class="header_widgets">
               <div class="circle_icon"> <i class="fa fa-envelope" aria-hidden="true"></i> </div>

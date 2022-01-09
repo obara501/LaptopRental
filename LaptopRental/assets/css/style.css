@@ -766,7 +766,7 @@ table thead th, table thead td {
 .default-header {
   background: #fff none repeat scroll 0 0;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
-  padding: 30px 0;
+  padding: 17px 0;
   transition-duration:0.3s;
    -moz-transition-duration:0.3s;
     -o-transition-duration:0.3s;
@@ -793,7 +793,7 @@ table thead th, table thead td {
 .social-follow {
   display: inline-block;
   margin-left: 20px;
-  margin-top: 0;
+  margin-top: -20px;
   vertical-align: middle;
 }
 .social-follow ul {
@@ -818,6 +818,7 @@ table thead th, table thead td {
   display: inline-block;
   margin-left: 10px;
   vertical-align: middle;
+  margin-bottom: 18px;
 }
 .circle_icon {
   border: 1px solid #000;
