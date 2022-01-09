@@ -5,7 +5,29 @@ include('includes/config.php');
 if (strlen($_SESSION['login']) == 0) {
   header('location:index.php');
 } else {
+  if (isset($_REQUEST['eid'])) {
+    $eid = intval($_GET['eid']);
+    $status = "2";
+    $sql = "UPDATE tblbooking SET Status=:status WHERE  id=:eid";
+    $query = $dbh->prepare($sql);
+    $query->bindParam(':status', $status, PDO::PARAM_STR);
+    $query->bindParam(':eid', $eid, PDO::PARAM_STR);
+    $query->execute();
+    $msg = "Booking Successfully Cancelled";
+  }
+
+  if (isset($_REQUEST['aeid'])) {
+    $aeid = intval($_GET['aeid']);
+    $status = 1;
+    $sql = "UPDATE tblbooking SET Status=:status WHERE  id=:aeid";
+    $query = $dbh->prepare($sql);
+    $query->bindParam(':status', $status, PDO::PARAM_STR);
+    $query->bindParam(':aeid', $aeid, PDO::PARAM_STR);
+    $query->execute();
+    $msg = "Booking Successfully Confirmed";
+  }
 ?>
+
   <!DOCTYPE html>
   <html lang="en">
 
@@ -54,6 +76,26 @@ if (strlen($_SESSION['login']) == 0) {
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+    <style>
+      .errorWrap {
+        padding: 10px;
+        margin: 0 0 20px 0;
+        background: #fff;
+        border-left: 4px solid #dd3d36;
+        -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+      }
+
+      .succWrap {
+        padding: 10px;
+        margin: 0 0 20px 0;
+        background: #fff;
+        border-left: 4px solid #5cb85c;
+        -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+      }
+    </style>
   </head>
 
   <body>
@@ -138,21 +180,15 @@ if (strlen($_SESSION['login']) == 0) {
                                   <b>Owner Email  :</b> <?php echo htmlentities($result->OwnerEmail); ?><br/>
                               </div>
                               <?php if ($result->Status == 1) { ?>
-                                <div class=" vehicle_status"> <a href="#" class="btn outline btn-xs active-btn">Confirmed</a>
+                                <div class=" vehicle_status"> <a href="#" class="btn outline btn-xs active-btn">Active</a>
                                     <div class="clearfix"></div>
                               </div>
 
                             <?php } else if ($result->Status == 2) { ?>
-                              <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Cancelled</a>
+                              <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Inactive</a>
                                 <div class="clearfix"></div>
                               </div>
 
-
-
-                            <?php } else { ?>
-                              <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Not Confirm yet</a>
-                                <div class="clearfix"></div>
-                              </div>
                             <?php } ?>
                             </li>
                         <?php }
@@ -272,7 +308,21 @@ if (strlen($_SESSION['login']) == 0) {
 
 
         <!--/my-vehicles-->
+
         <?php include('includes/footer.php'); ?>
+
+        <!-- Loading Scripts -->
+        <script src="./admin/js/jquery.min.js"></script>
+        <script src="./admin/js/bootstrap-select.min.js"></script>
+        <script src="./admin/js/bootstrap.min.js"></script>
+        <script src="./admin/js/jquery.dataTables.min.js"></script>
+        <script src="./admin/js/dataTables.bootstrap.min.js"></script>
+        <script src="./admin/js/Chart.min.js"></script>
+        <script src="./admin/js/fileinput.js"></script>
+        <script src="./admin/js/chartData.js"></script>
+        <script src="./admin/js/main.js"></script>
+
+
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
         <script src="assets/js/interface.js"></script>
