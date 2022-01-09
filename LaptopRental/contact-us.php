@@ -31,7 +31,7 @@ if (isset($_POST['send'])) {
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="keywords" content="">
   <meta name="description" content="">
-  <title>CarForYou - Responsive Car Dealer HTML5 Template</title>
+  <title>Laptop Rental - Responsive Car Dealer HTML5 Template</title>
   <!--Bootstrap -->
   <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
   <!--Custome Style -->
@@ -215,6 +215,6 @@ if (isset($_POST['send'])) {
 
 </body>
 
-<!-- Mirrored from themes.webmasterdriver.net/carforyou/demo/contact-us.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Jun 2017 07:26:55 GMT -->
+<!-- Mirrored from themes.webmasterdriver.net/Laptop Rental/demo/contact-us.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Jun 2017 07:26:55 GMT -->
 
 </html>

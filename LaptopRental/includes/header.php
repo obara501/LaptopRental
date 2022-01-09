@@ -67,15 +67,13 @@
                   <li><a href="update-password.php">Update Password</a></li>
                   <li><a href="my-booking.php">My Booking</a></li>
                   <li><a href="my-laptops.php">My Laptops</a></li>
-                  <li><a href="post-testimonial.php">Post a Testimonial</a></li>
-                  <li><a href="my-testimonials.php">My Testimonial</a></li>
+                  <li><a href="postlaptop.php">Post Laptop</a></li>
                   <li><a href="logout.php">Sign Out</a></li>
                 <?php } else { ?>
                   <li><a href="#loginform" data-toggle="modal" data-dismiss="modal">Profile Settings</a></li>
                   <li><a href="#loginform" data-toggle="modal" data-dismiss="modal">Update Password</a></li>
                   <li><a href="#loginform" data-toggle="modal" data-dismiss="modal">My Booking</a></li>
-                  <li><a href="#loginform" data-toggle="modal" data-dismiss="modal">Post a Testimonial</a></li>
-                  <li><a href="#loginform" data-toggle="modal" data-dismiss="modal">My Testimonial</a></li>
+                  <li><a href="#loginform" data-toggle="modal" data-dismiss="modal">Post Laptop</a></li>i>
                   <li><a href="#loginform" data-toggle="modal" data-dismiss="modal">Sign Out</a></li>
                 <?php } ?>
               </ul>
@@ -94,7 +92,7 @@
         <ul class="nav navbar-nav">
           <li><a href="index.php">Home</a> </li>
           <li><a href="page.php?type=aboutus">About Us</a></li>
-          <li><a href="postlaptop.php">Post a Laptop</a>
+          <li><a href="laptop-listing.php">Laptop Listing</a>
           <li><a href="page.php?type=faqs">FAQs</a></li>
           <li><a href="contact-us.php">Contact Us</a></li>
 
