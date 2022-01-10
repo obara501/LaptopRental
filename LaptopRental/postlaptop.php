@@ -28,7 +28,10 @@ if (strlen($_SESSION['login']) == 0) {
 		move_uploaded_file($_FILES["img3"]["tmp_name"], "img/vehicleimages/" . $_FILES["img3"]["name"]);
 		move_uploaded_file($_FILES["img4"]["tmp_name"], "img/vehicleimages/" . $_FILES["img4"]["name"]);
 
-		$sql = "INSERT INTO tbllaptops(SerialNumber,OwnerEmail,LaptopTitle,VehiclesBrand,LaptopOverview,PricePerDay,Processor,Storage,RAM,Vimage1,Vimage2,Vimage3,Vimage4,Charger,Bag,Mouse) VALUES(:serialnumber,:email,:laptoptitle,:brand,:laptopoverview,:priceperday,:processor,:storage,:ram,:vimage1,:vimage2,:vimage3,:vimage4,:charger,:bag,:mouse)";
+		$sql = "INSERT INTO tbllaptops(SerialNumber,OwnerEmail,LaptopTitle,VehiclesBrand,LaptopOverview,PricePerDay,Processor,
+		Storage,RAM,Vimage1,Vimage2,Vimage3,Vimage4,Charger,Bag,Mouse) 
+		VALUES(:serialnumber,:email,:laptoptitle,:brand,:laptopoverview,:priceperday,:processor,:storage,:ram
+		,:vimage1,:vimage2,:vimage3,:vimage4,:charger,:bag,:mouse)";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':serialnumber', $serialnumber, PDO::PARAM_STR);
 		$query->bindParam(':email', $emailid, PDO::PARAM_STR);

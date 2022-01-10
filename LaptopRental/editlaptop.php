@@ -21,7 +21,10 @@ if (strlen($_SESSION['login']) == 0) {
         $mouse = $_POST['mouse'];
         $id = intval($_GET['id']);
 
-        $sql = "update tbllaptops set SerialNumber=:serialnumber,OwnerEmail=:emailid,LaptopTitle=:laptoptitle,VehiclesBrand=:brand,LaptopOverview=:laptopoverview,PricePerDay=:priceperday,Processor=:processor,Storage=:storage,RAM=:ram,Charger=:charger,Bag=:bag,Mouse=:mouse where id=:id ";
+        $sql = "update tbllaptops 
+        set SerialNumber=:serialnumber,OwnerEmail=:emailid,LaptopTitle=:laptoptitle,VehiclesBrand=:brand,
+        LaptopOverview=:laptopoverview,PricePerDay=:priceperday,Processor=:processor,Storage=:storage,RAM=:ram,
+        Charger=:charger,Bag=:bag,Mouse=:mouse where id=:id ";
         $query = $dbh->prepare($sql);
         $query->bindParam(':serialnumber', $serialnumber, PDO::PARAM_STR);
         $query->bindParam(':emailid', $emailid, PDO::PARAM_STR);

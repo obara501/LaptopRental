@@ -13,7 +13,9 @@ if (strlen($_SESSION['login']) == 0) {
     $city = $_POST['city'];
     $country = $_POST['country'];
     $email = $_SESSION['login'];
-    $sql = "update tblusers set FullName=:name,ContactNo=:mobileno,dob=:dob,Address=:adress,City=:city,Country=:country where EmailId=:email";
+    $sql = "update tblusers 
+    set FullName=:name,ContactNo=:mobileno,dob=:dob,Address=:adress,City=:city,Country=:country 
+    where EmailId=:email";
     $query = $dbh->prepare($sql);
     $query->bindParam(':name', $name, PDO::PARAM_STR);
     $query->bindParam(':mobileno', $mobileno, PDO::PARAM_STR);
