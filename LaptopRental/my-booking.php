@@ -120,7 +120,7 @@ if (strlen($_SESSION['login']) == 0) {
                       <ul class="vehicle_listing">
                         <?php
                         $useremail = $_SESSION['login'];
-                        $sql = "SELECT tbllaptops.Vimage1 as Vimage1,tbllaptops.LaptopTitle,tbllaptops.SerialNumber,tbllaptops.OwnerEmail,tbllaptops.id as vid,tblbrands.BrandName,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.Status  from tblbooking join tbllaptops on tblbooking.VehicleId=tbllaptops.id join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where tblbooking.userEmail=:useremail";
+                        $sql = "SELECT tbllaptops.Vimage1 as Vimage1,tbllaptops.LaptopTitle,tbllaptops.SerialNumber,tbllaptops.OwnerEmail,tbllaptops.id as vid,tblbrands.BrandName,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.Status  from tblbooking join tbllaptops on tblbooking.LaptopId=tbllaptops.id join tblbrands on tblbrands.id=tbllaptops.LaptopBrand where tblbooking.userEmail=:useremail";
                         $query = $dbh->prepare($sql);
                         $query->bindParam(':useremail', $useremail, PDO::PARAM_STR);
                         $query->execute();

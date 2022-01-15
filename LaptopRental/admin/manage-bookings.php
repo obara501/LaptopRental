@@ -13,7 +13,8 @@ if (strlen($_SESSION['alogin']) == 0) {
 		$query->bindParam(':status', $status, PDO::PARAM_STR);
 		$query->bindParam(':eid', $eid, PDO::PARAM_STR);
 		$query->execute();
-		$msg = "Booking Successfully Cancelled";
+		//$msg = "Booking Successfully Cancelled";
+		$msg = "Laptop added succesfully";
 	}
 
 	if (isset($_REQUEST['aeid'])) {
@@ -128,7 +129,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 										</tfoot>
 										<tbody>
 
-											<?php $sql = "SELECT tblusers.FullName,tblbrands.BrandName,tbllaptops.SerialNumber,tbllaptops.LaptopTitle,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.VehicleId as vid,tblbooking.Status,tblbooking.PostingDate,tblbooking.id  from tblbooking join tbllaptops on tbllaptops.id=tblbooking.VehicleId join tblusers on tblusers.EmailId=tblbooking.userEmail join tblbrands on tbllaptops.VehiclesBrand=tblbrands.id  ";
+											<?php $sql = "SELECT tblusers.FullName,tblbrands.BrandName,tbllaptops.SerialNumber,tbllaptops.LaptopTitle,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.LaptopId as vid,tblbooking.Status,tblbooking.PostingDate,tblbooking.id  from tblbooking join tbllaptops on tbllaptops.id=tblbooking.LaptopId join tblusers on tblusers.EmailId=tblbooking.userEmail join tblbrands on tbllaptops.LaptopBrand=tblbrands.id  ";
 											$query = $dbh->prepare($sql);
 											$query->execute();
 											$results = $query->fetchAll(PDO::FETCH_OBJ);

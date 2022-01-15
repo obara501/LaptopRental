@@ -92,7 +92,7 @@
         <ul class="nav navbar-nav">
           <li><a href="index.php">Home</a> </li>
           <li><a href="page.php?type=aboutus">About Us</a></li>
-          <li><a href="laptop-listing.php">Laptop Listing</a>
+          <li><a href="laptop-listing.php">Laptop For Rent</a>
           <li><a href="page.php?type=faqs">FAQs</a></li>
           <li><a href="contact-us.php">Contact Us</a></li>
 

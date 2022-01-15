@@ -22,12 +22,14 @@ if (strlen($_SESSION['login']) == 0) {
         $id = intval($_GET['id']);
 
         $sql = "update tbllaptops 
-        set SerialNumber=:serialnumber,OwnerEmail=:emailid,LaptopTitle=:laptoptitle,VehiclesBrand=:brand,
+        set SerialNumber=:serialnumber,OwnerEmail=:email,LaptopTitle=:laptoptitle,LaptopBrand=:brand,
         LaptopOverview=:laptopoverview,PricePerDay=:priceperday,Processor=:processor,Storage=:storage,RAM=:ram,
-        Charger=:charger,Bag=:bag,Mouse=:mouse where id=:id ";
+        Charger=:charger,Bag=:bag,Mouse=:mouse 
+        where id=:id ";
+
         $query = $dbh->prepare($sql);
         $query->bindParam(':serialnumber', $serialnumber, PDO::PARAM_STR);
-        $query->bindParam(':emailid', $emailid, PDO::PARAM_STR);
+        $query->bindParam(':email', $emailid, PDO::PARAM_STR);
         $query->bindParam(':laptoptitle', $laptoptitle, PDO::PARAM_STR);
         $query->bindParam(':brand', $brand, PDO::PARAM_STR);
         $query->bindParam(':laptopoverview', $laptopoverview, PDO::PARAM_STR);
@@ -42,7 +44,6 @@ if (strlen($_SESSION['login']) == 0) {
 
         $msg = "Data updated successfully";
     }
-
 
 ?>
 
@@ -65,7 +66,6 @@ if (strlen($_SESSION['login']) == 0) {
         <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
         <link href="assets/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-
         <link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
         <link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/red.css" title="red" media="all" data-default-color="true" />
         <link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/orange.css" title="orange" media="all" />
@@ -162,7 +162,7 @@ if (strlen($_SESSION['login']) == 0) {
                                             <?php if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
                                             <?php
                                             $id = intval($_GET['id']);
-                                            $sql = "SELECT tbllaptops.*,tblbrands.BrandName,tblbrands.id as bid from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where tbllaptops.id=:id";
+                                            $sql = "SELECT tbllaptops.*,tblbrands.BrandName,tblbrands.id as bid from tbllaptops join tblbrands on tblbrands.id=tbllaptops.LaptopBrand where tbllaptops.id=:id";
                                             $query = $dbh->prepare($sql);
                                             $query->bindParam(':id', $id, PDO::PARAM_STR);
                                             $query->execute();
@@ -180,7 +180,7 @@ if (strlen($_SESSION['login']) == 0) {
 
                                                             <label class="col-sm-2 control-label">Owner Email<span style="color:red">*</span></label>
                                                             <div class="col-sm-4">
-                                                                <input type="email" name="emailid" class="form-control" value="<?php echo htmlentities($result->OwnerEmail) ?>" readonly onBlur="checkAvailability()" required>
+                                                                <input type="email" name="emailid" class="form-control" value="<?php echo htmlentities($result->OwnerEmail) ?>" onBlur="checkAvailability()" required>
                                                                 <span id="user-availability-status" style="font-size:12px;"></span>
                                                             </div>
                                                         </div>

@@ -9,7 +9,7 @@ if (isset($_POST['submit'])) {
   $useremail = $_SESSION['login'];
   $status = 0;
   $vhid = $_GET['vhid'];
-  $sql = "INSERT INTO  tblbooking(userEmail,VehicleId,FromDate,ToDate,message,Status) VALUES(:useremail,:vhid,:fromdate,:todate,:message,:status)";
+  $sql = "INSERT INTO  tblbooking(userEmail,LaptopId,FromDate,ToDate,message,Status) VALUES(:useremail,:vhid,:fromdate,:todate,:message,:status)";
   $query = $dbh->prepare($sql);
   $query->bindParam(':useremail', $useremail, PDO::PARAM_STR);
   $query->bindParam(':vhid', $vhid, PDO::PARAM_STR);
@@ -84,7 +84,7 @@ if (isset($_POST['submit'])) {
 
   <?php
   $vhid = intval($_GET['vhid']);
-  $sql = "SELECT tbllaptops.*,tblbrands.BrandName,tblbrands.id as bid  from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where tbllaptops.id=:vhid";
+  $sql = "SELECT tbllaptops.*,tblbrands.BrandName,tblbrands.id as bid  from tbllaptops join tblbrands on tblbrands.id=tbllaptops.LaptopBrand where tbllaptops.id=:vhid";
   $query = $dbh->prepare($sql);
   $query->bindParam(':vhid', $vhid, PDO::PARAM_STR);
   $query->execute();
@@ -252,7 +252,7 @@ if (isset($_POST['submit'])) {
             <div class="row">
               <?php
               $bid = $_SESSION['brndid'];
-              $sql = "SELECT tbllaptops.LaptopTitle,tblbrands.BrandName,tbllaptops.PricePerDay,tbllaptops.Processor,tbllaptops.Storage,tbllaptops.id,tbllaptops.RAM,tbllaptops.LaptopOverview,tbllaptops.Vimage1 from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where tbllaptops.VehiclesBrand=:bid";
+              $sql = "SELECT tbllaptops.LaptopTitle,tblbrands.BrandName,tbllaptops.PricePerDay,tbllaptops.Processor,tbllaptops.Storage,tbllaptops.id,tbllaptops.RAM,tbllaptops.LaptopOverview,tbllaptops.Vimage1 from tbllaptops join tblbrands on tblbrands.id=tbllaptops.LaptopBrand where tbllaptops.LaptopBrand=:bid";
               $query = $dbh->prepare($sql);
               $query->bindParam(':bid', $bid, PDO::PARAM_STR);
               $query->execute();

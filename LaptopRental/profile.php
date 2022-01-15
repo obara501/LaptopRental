@@ -165,7 +165,7 @@ if (strlen($_SESSION['login']) == 0) {
                       </div>
                       <div class="form-group">
                         <label class="control-label">Email Address</label>
-                        <input class="form-control white_bg" value="<?php echo htmlentities($result->EmailId); ?>" name="emailid" id="email" type="email" required readonly>
+                        <input class="form-control white_bg" value="<?php echo htmlentities($result->EmailId); ?>" name="emailid" id="email" type="email" required >
                       </div>
                       <div class="form-group">
                         <label class="control-label">Phone Number</label>

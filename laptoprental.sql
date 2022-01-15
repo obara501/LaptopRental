@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `carrental`
+-- Database: `laptoprental`
 --
 
 -- --------------------------------------------------------
@@ -50,7 +50,7 @@ INSERT INTO `admin` (`id`, `UserName`, `Password`, `updationDate`) VALUES
 CREATE TABLE `tblbooking` (
   `id` int(11) NOT NULL,
   `userEmail` varchar(100) DEFAULT NULL,
-  `VehicleId` int(11) DEFAULT NULL,
+  `LaptopId` int(11) DEFAULT NULL,
   `FromDate` varchar(20) DEFAULT NULL,
   `ToDate` varchar(20) DEFAULT NULL,
   `message` varchar(255) DEFAULT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE `tblbooking` (
 -- Dumping data for table `tblbooking`
 --
 
-INSERT INTO `tblbooking` (`id`, `userEmail`, `VehicleId`, `FromDate`, `ToDate`, `message`, `Status`, `PostingDate`) VALUES
+INSERT INTO `tblbooking` (`id`, `userEmail`, `LaptopId`, `FromDate`, `ToDate`, `message`, `Status`, `PostingDate`) VALUES
 (1, 'jeff@gmail.com', 5, '31/12/2021', '01/01/2022', 'Need it for a school project', 1, '2021-12-31 14:07:08'),
 (2, 'geofrey@gmail.com', 7, '1/1/2022', '2/2/2022', 'For a school project on Adobe. ', 1, '2021-12-31 16:30:47');
 
@@ -228,7 +228,7 @@ CREATE TABLE `tbllaptops` (
   `SerialNumber` varchar(255) NOT NULL,
   `OwnerEmail` varchar(255) NOT NULL,
   `LaptopTitle` varchar(255) DEFAULT NULL,
-  `VehiclesBrand` int(11) DEFAULT NULL,
+  `LaptopBrand` int(11) DEFAULT NULL,
   `LaptopOverview` varchar(255) DEFAULT NULL,
   `PricePerDay` int(11) DEFAULT NULL,
   `Processor` varchar(255) DEFAULT NULL,

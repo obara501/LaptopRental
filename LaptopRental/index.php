@@ -99,7 +99,7 @@ error_reporting(0);
         <!-- Nav tabs -->
         <div class="recent-tab">
           <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#resentnewcar" role="tab" data-toggle="tab">Listed Laptops</a></li>
+            <li role="presentation" class="active"><a href="#resentnewcar" role="tab" data-toggle="tab">Available Laptops</a></li>
           </ul>
         </div>
         <!-- Recently Listed New Cars -->
@@ -107,7 +107,7 @@ error_reporting(0);
           <div role="tabpanel" class="tab-pane active" id="resentnewcar">
             <?php
             $useremail = $_SESSION['login']; 
-            $sql = "SELECT tbllaptops.LaptopTitle,tbllaptops.OwnerEmail,tblbrands.BrandName,tbllaptops.PricePerDay,tbllaptops.Processor,tbllaptops.Storage,tbllaptops.id,tbllaptops.RAM,tbllaptops.LaptopOverview,tbllaptops.Vimage1 from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where tbllaptops.OwnerEmail!=?;";
+            $sql = "SELECT tbllaptops.LaptopTitle,tbllaptops.OwnerEmail,tblbrands.BrandName,tbllaptops.PricePerDay,tbllaptops.Processor,tbllaptops.Storage,tbllaptops.id,tbllaptops.RAM,tbllaptops.LaptopOverview,tbllaptops.Vimage1 from tbllaptops join tblbrands on tblbrands.id=tbllaptops.LaptopBrand where tbllaptops.OwnerEmail!=?;";
             $query = $dbh->prepare($sql);
             $query->execute([$useremail]);
             $results = $query->fetchAll(PDO::FETCH_OBJ);

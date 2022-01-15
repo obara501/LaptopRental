@@ -28,7 +28,7 @@ if (strlen($_SESSION['login']) == 0) {
 		move_uploaded_file($_FILES["img3"]["tmp_name"], "img/vehicleimages/" . $_FILES["img3"]["name"]);
 		move_uploaded_file($_FILES["img4"]["tmp_name"], "img/vehicleimages/" . $_FILES["img4"]["name"]);
 
-		$sql = "INSERT INTO tbllaptops(SerialNumber,OwnerEmail,LaptopTitle,VehiclesBrand,LaptopOverview,PricePerDay,Processor,
+		$sql = "INSERT INTO tbllaptops(SerialNumber,OwnerEmail,LaptopTitle,LaptopBrand,LaptopOverview,PricePerDay,Processor,
 		Storage,RAM,Vimage1,Vimage2,Vimage3,Vimage4,Charger,Bag,Mouse) 
 		VALUES(:serialnumber,:email,:laptoptitle,:brand,:laptopoverview,:priceperday,:processor,:storage,:ram
 		,:vimage1,:vimage2,:vimage3,:vimage4,:charger,:bag,:mouse)";
@@ -164,7 +164,7 @@ if (strlen($_SESSION['login']) == 0) {
 
 												<label class="col-sm-2 control-label">Owner Email<span style="color:red">*</span></label>
 												<div class="col-sm-4">
-													<input type="email" name="emailid" class="form-control"  value = "<?php echo htmlentities($results->EmailId); ?>" readonly onBlur="checkAvailability()" required>
+													<input type="email" name="emailid" class="form-control"  value = "<?php echo htmlentities($results->EmailId); ?>" onBlur="checkAvailability()" required>
 													<span id="user-availability-status" style="font-size:12px;"></span>
 												</div>
 											</div>

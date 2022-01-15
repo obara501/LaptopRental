@@ -153,7 +153,7 @@ if (strlen($_SESSION['login']) == 0) {
                       <ul class="vehicle_listing">
                         <?php
                         $useremail = $_SESSION['login'];
-                        $sql = "SELECT tbllaptops.SerialNumber,tbllaptops.LaptopTitle,tbllaptops.OwnerEmail,tbllaptops.online,tblbrands.BrandName,tbllaptops.id,tbllaptops.Vimage1 from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand where tbllaptops.OwnerEmail=?;";
+                        $sql = "SELECT tbllaptops.SerialNumber,tbllaptops.LaptopTitle,tbllaptops.OwnerEmail,tbllaptops.online,tblbrands.BrandName,tbllaptops.id,tbllaptops.Vimage1 from tbllaptops join tblbrands on tblbrands.id=tbllaptops.LaptopBrand where tbllaptops.OwnerEmail=?;";
                         $query = $dbh->prepare($sql);
                         $query->execute([$useremail]);
                         $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -252,7 +252,7 @@ if (strlen($_SESSION['login']) == 0) {
 
                           <?php
                           $useremail = $_SESSION['login'];
-                          $sql = "SELECT tblusers.FullName,tblusers.EmailId,tblbrands.BrandName,tbllaptops.id,tbllaptops.OwnerEmail,tbllaptops.SerialNumber,tbllaptops.LaptopTitle,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.VehicleId as vid,tblbooking.Status,tblbooking.userEmail,tblbooking.PostingDate,tblbooking.id from tblbooking join tbllaptops on tbllaptops.id=tblbooking.VehicleId join tblusers on tblusers.EmailId=tbllaptops.OwnerEmail join tblbrands on tbllaptops.VehiclesBrand=tblbrands.id where tblusers.EmailId=?";
+                          $sql = "SELECT tblusers.FullName,tblusers.EmailId,tblbrands.BrandName,tbllaptops.id,tbllaptops.OwnerEmail,tbllaptops.SerialNumber,tbllaptops.LaptopTitle,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.LaptopId as vid,tblbooking.Status,tblbooking.userEmail,tblbooking.PostingDate,tblbooking.id from tblbooking join tbllaptops on tbllaptops.id=tblbooking.LaptopId join tblusers on tblusers.EmailId=tbllaptops.OwnerEmail join tblbrands on tbllaptops.LaptopBrand=tblbrands.id where tblusers.EmailId=?";
                           $query = $dbh->prepare($sql);
                           $query->execute([$useremail]);
                           $results = $query->fetchAll(PDO::FETCH_OBJ);

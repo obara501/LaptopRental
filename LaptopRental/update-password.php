@@ -167,7 +167,7 @@ if (strlen($_SESSION['login']) == 0) {
                         <label class="control-label">Current Password</label>
                         <input class="form-control white_bg" id="password" name="password" type="password" required>
                       </div>
-                      <div cl <div class="form-group">
+                      <div class="form-group">
                         <label class="control-label">Password</label>
                         <input class="form-control white_bg" id="newpassword" type="password" name="newpassword" required>
                       </div>

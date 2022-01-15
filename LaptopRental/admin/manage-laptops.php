@@ -118,7 +118,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 											</tr>
 										</tfoot>
 										<tbody>
-											<?php $sql = "SELECT tbllaptops.LaptopTitle,tblbrands.BrandName,tbllaptops.SerialNumber,tbllaptops.PricePerDay,tbllaptops.Processor,tbllaptops.Storage,tbllaptops.id from tbllaptops join tblbrands on tblbrands.id=tbllaptops.VehiclesBrand";
+											<?php $sql = "SELECT tbllaptops.LaptopTitle,tblbrands.BrandName,tbllaptops.SerialNumber,tbllaptops.PricePerDay,tbllaptops.Processor,tbllaptops.Storage,tbllaptops.id from tbllaptops join tblbrands on tblbrands.id=tbllaptops.LaptopBrand";
 											$query = $dbh->prepare($sql);
 											$query->execute();
 											$results = $query->fetchAll(PDO::FETCH_OBJ);
